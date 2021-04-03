@@ -9,7 +9,7 @@ const SearchScreen = () => {
   const [results, searchQuery, errorMessage] = useResults();
 
   const submitQuery = (query) => {
-    return query ? searchQuery(query) : null;
+    return query !== "" ? searchQuery(query) : null;
   };
 
   return (

@@ -5,6 +5,16 @@ export default () => {
   const [results, setResults] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
 
+  const showInitialList = async () => {
+    try {
+      const response = await pokeapi.get(`/pokemon`);
+      setResults(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const searchQuery = async (name) => {
     try {
       const response = await pokeapi.get(`/pokemon/${name}`);
@@ -16,7 +26,7 @@ export default () => {
   };
 
   useEffect(() => {
-    searchQuery("pikachu");
+    showInitialList();
   }, []);
 
   return [results, searchQuery, errorMessage];
