@@ -8,13 +8,17 @@ const SearchScreen = () => {
   const [query, setQuery] = useState("");
   const [results, searchQuery, errorMessage] = useResults();
 
+  const submitQuery = (query) => {
+    return query ? searchQuery(query) : null;
+  };
+
   return (
     <View>
       <Text>Search screen</Text>
       <SearchBar
         query={query}
         onQueryChange={setQuery}
-        onQuerySubmit={() => searchQuery(query)}
+        onQuerySubmit={() => submitQuery(query)}
       />
     </View>
   );
