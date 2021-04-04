@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
-import getFullList from "../hooks/getFullList";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import Grid from "../components/Grid";
 
 const HomeScreen = () => {
-  const [results, showInitialList, errorMessage] = getFullList();
-
-  const listOfAllPokemon = results.results;
-
   return (
-    <View>
-      <Text>Home screen</Text>
-      <FlatList
-        data={listOfAllPokemon}
-        keyExtractor={(result) => result.name}
-        renderItem={({ item }) => {
-          return (
-            <View>
-              <Text>{item.name}</Text>
-            </View>
-          );
-        }}
-      />
+    <View style={styles.body}>
+      <Text style={styles.title}>All Pokemon</Text>
+      <Grid />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
+  body: {
+    backgroundColor: "white",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 20,
   },
 });
 

@@ -6,7 +6,7 @@ import SearchBar from "../components/SearchBar";
 
 const SearchScreen = () => {
   const [query, setQuery] = useState("");
-  const [results, searchQuery, errorMessage] = useResults();
+  const [queryResults, searchQuery, queryErrorMessage] = useResults();
 
   const submitQuery = (query) => {
     return query !== "" ? searchQuery(query) : null;
