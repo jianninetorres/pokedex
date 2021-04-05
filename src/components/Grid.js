@@ -14,35 +14,39 @@ const Grid = () => {
 
   return (
     <View style={styles.wrapper}>
-      <FlatList
-        data={listOfAllPokemon}
-        keyExtractor={(result) => result.name}
-        numColumns={3}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.pokemonContainer}>
-              <Text>{capitalizeName(item.name)}</Text>
-              <PokemonImage name={item.name} />
-            </View>
-          );
-        }}
-      />
+      <View>
+        <FlatList
+          data={listOfAllPokemon}
+          keyExtractor={(result) => result.name}
+          numColumns={3}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.pokemonContainer}>
+                <PokemonImage name={item.name} />
+                <Text style={styles.pokemonName}>
+                  {capitalizeName(item.name)}
+                </Text>
+              </View>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
   },
   pokemonContainer: {
     flexGrow: 1,
-    flexBasis: 100,
-    padding: 5,
+    padding: 10,
+  },
+  pokemonName: {
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 

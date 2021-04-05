@@ -9,7 +9,7 @@ export default () => {
     try {
       const response = await pokeapi.get(`/pokemon`, {
         params: {
-          limit: 150,
+          limit: 151,
         },
       });
       setResults(response.data);

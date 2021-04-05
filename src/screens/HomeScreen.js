@@ -1,19 +1,49 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import useResults from "../hooks/useResults";
 import Grid from "../components/Grid";
+import SearchBar from "../components/SearchBar";
+import PokemonImage from "../components/PokemonImage";
 
 const HomeScreen = () => {
+  const [userQuery, setUserQuery] = useState("");
+  const [queryResults, searchQuery, queryErrorMessage] = useResults();
+
+  const submitQuery = (userQuery) => {
+    return userQuery !== "" ? searchQuery(userQuery) : null;
+  };
+
   return (
-    <View style={styles.body}>
-      <Text style={styles.title}>All Pokemon</Text>
-      <Grid />
-    </View>
+    <SafeAreaView style={styles.body}>
+      <SearchBar
+        query={userQuery}
+        onQueryChange={setUserQuery}
+        onQuerySubmit={() => submitQuery(userQuery)}
+      />
+      {queryResults.hasOwnProperty("name") && userQuery.length > 0 ? (
+        <View>
+          <PokemonImage name={queryResults.name} />
+          <TouchableOpacity onPress={() => setUserQuery("")}>
+            <Text style={styles.clearButton}>Clear</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <Grid />
+      )}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   body: {
     backgroundColor: "white",
+    flexGrow: 1,
   },
   title: {
     fontSize: 24,
@@ -21,6 +51,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     marginBottom: 20,
+  },
+  clearButton: {
+    backgroundColor: "hotpink",
+    padding: 20,
   },
 });
 
