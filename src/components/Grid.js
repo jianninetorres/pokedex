@@ -1,9 +1,16 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
+import { withNavigation } from "react-navigation";
 
-const Grid = () => {
+const Grid = ({ navigation }) => {
   const [results, showInitialList, errorMessage] = getFullList();
 
   const listOfAllPokemon = results.results;
@@ -22,10 +29,16 @@ const Grid = () => {
           renderItem={({ item }) => {
             return (
               <View style={styles.pokemonContainer}>
-                <PokemonImage name={item.name} />
-                <Text style={styles.pokemonName}>
-                  {capitalizeName(item.name)}
-                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Stats", { name: item.name })
+                  }
+                >
+                  <PokemonImage name={item.name} />
+                  <Text style={styles.pokemonName}>
+                    {capitalizeName(item.name)}
+                  </Text>
+                </TouchableOpacity>
               </View>
             );
           }}
@@ -50,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Grid;
+export default withNavigation(Grid);
