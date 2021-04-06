@@ -1,15 +1,20 @@
 import React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
 
-const PokemonImage = ({ name }) => {
+const PokemonImage = ({ name, navigation }) => {
   return (
     <>
-      <Image
-        source={{
-          uri: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
-        }}
-        style={styles.image}
-      />
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Stats", { name: name })}
+      >
+        <Image
+          source={{
+            uri: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
+          }}
+          style={styles.image}
+        />
+      </TouchableOpacity>
     </>
   );
 };
@@ -22,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PokemonImage;
+export default withNavigation(PokemonImage);
