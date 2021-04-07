@@ -22,7 +22,9 @@ const HomeScreen = () => {
   ] = useResults();
 
   const submitQuery = (userQuery) => {
-    return userQuery !== "" ? searchQuery(userQuery) : null;
+    return userQuery !== "" ? searchQuery(userQuery) : setUserQuery("");
+  };
+
   };
 
   return (
