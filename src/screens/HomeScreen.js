@@ -53,7 +53,7 @@ const HomeScreen = () => {
           >
             <PokemonImage name={queryResults.name} />
           </NavigationButton>
-          <TouchableOpacity onPress={() => setUserQuery("")}>
+          <TouchableOpacity onPress={clearQuery}>
             <Text style={styles.clearButton}>Clear</Text>
           </TouchableOpacity>
         </View>
