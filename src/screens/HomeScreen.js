@@ -45,7 +45,7 @@ const HomeScreen = () => {
         onQueryChange={(value) => setUserQueryHandler(value)}
         onQuerySubmit={() => submitQuery(userQuery)}
       />
-      {queryResults.hasOwnProperty("name") && userQuery.length > 0 ? (
+      {queryResults.name && userQuery ? (
         <View>
           <NavigationButton
             screen="Stats"
