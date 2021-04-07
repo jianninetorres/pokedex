@@ -15,5 +15,5 @@ export default () => {
     }
   };
 
-  return [queryResults, searchQuery, queryErrorMessage];
+  return [queryResults, setResults, searchQuery, queryErrorMessage];
 };
