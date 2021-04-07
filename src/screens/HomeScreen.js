@@ -14,7 +14,12 @@ import NavigationButton from "../components/NavigationButton";
 
 const HomeScreen = () => {
   const [userQuery, setUserQuery] = useState("");
-  const [queryResults, searchQuery, queryErrorMessage] = useResults();
+  const [
+    queryResults,
+    setResults,
+    searchQuery,
+    queryErrorMessage,
+  ] = useResults();
 
   const submitQuery = (userQuery) => {
     return userQuery !== "" ? searchQuery(userQuery) : null;
