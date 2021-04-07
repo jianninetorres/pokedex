@@ -42,7 +42,7 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.body}>
       <SearchBar
         query={userQuery}
-        onQueryChange={setUserQuery}
+        onQueryChange={(value) => setUserQueryHandler(value)}
         onQuerySubmit={() => submitQuery(userQuery)}
       />
       {queryResults.hasOwnProperty("name") && userQuery.length > 0 ? (
