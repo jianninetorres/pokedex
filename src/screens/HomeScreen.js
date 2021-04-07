@@ -25,6 +25,17 @@ const HomeScreen = () => {
     return userQuery !== "" ? searchQuery(userQuery) : setUserQuery("");
   };
 
+  const clearQuery = () => {
+    setUserQuery("");
+    setResults("");
+  };
+
+  const setUserQueryHandler = (value) => {
+    if (value.length == 0) {
+      clearQuery();
+    } else {
+      setUserQuery(value);
+    }
   };
 
   return (
