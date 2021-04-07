@@ -10,6 +10,7 @@ import useResults from "../hooks/useResults";
 import Grid from "../components/Grid";
 import SearchBar from "../components/SearchBar";
 import PokemonImage from "../components/PokemonImage";
+import NavigationButton from "../components/NavigationButton";
 
 const HomeScreen = () => {
   const [userQuery, setUserQuery] = useState("");
@@ -28,7 +29,12 @@ const HomeScreen = () => {
       />
       {queryResults.hasOwnProperty("name") && userQuery.length > 0 ? (
         <View>
-          <PokemonImage name={queryResults.name} />
+          <NavigationButton
+            screen="Stats"
+            dataObj={{ name: queryResults.name }}
+          >
+            <PokemonImage name={queryResults.name} />
+          </NavigationButton>
           <TouchableOpacity onPress={() => setUserQuery("")}>
             <Text style={styles.clearButton}>Clear</Text>
           </TouchableOpacity>
