@@ -12,6 +12,7 @@ const SearchBar = ({ query, onQueryChange, onQuerySubmit }) => {
         value={query}
         onChangeText={onQueryChange}
         onEndEditing={onQuerySubmit}
+        clearButtonMode="always"
       />
     </View>
   );
