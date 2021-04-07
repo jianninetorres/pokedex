@@ -5,7 +5,12 @@ import PokemonImage from "../components/PokemonImage";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
-  const [queryResults, searchQuery, queryErrorMessage] = useResults();
+  const [
+    queryResults,
+    setResults,
+    searchQuery,
+    queryErrorMessage,
+  ] = useResults();
 
   const capitalizeName = (name) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -20,7 +25,7 @@ const StatsScreen = ({ navigation }) => {
       <Text>Stats screen for {capitalizeName(name)}</Text>
       <PokemonImage name={name} />
       {queryResults ? (
-        <View>
+        <View key={queryResults.id}>
           <Text>{queryResults.id}</Text>
           <View>
             <Text>Types</Text>
@@ -28,7 +33,7 @@ const StatsScreen = ({ navigation }) => {
               data={queryResults.types}
               keyExtractor={(result) => result.name}
               renderItem={({ item }) => {
-                return <Text key={item.type.name}>{item.type.name}</Text>;
+                return <Text key={item.id}>{item.type.name}</Text>;
               }}
             />
           </View>
