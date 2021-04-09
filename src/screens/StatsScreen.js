@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import useResults from "../hooks/useResults";
 import PokemonImage from "../components/PokemonImage";
+import { capitalizeName, extractId } from "../utils/helpers";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
@@ -12,18 +13,6 @@ const StatsScreen = ({ navigation }) => {
     searchQuery,
     queryErrorMessage,
   ] = useResults();
-
-  const capitalizeName = (name) => {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  };
-
-  const extractId = (url) => {
-    // https://pokeapi.co/api/v2/pokemon/{name}
-    const regex = /\/\d{1,}\//g;
-    const match = url.match(regex);
-    const id = match[0].replace(/^\/|\/$/g, "");
-    return id;
-  };
 
   useEffect(() => {
     searchQuery(name);

@@ -9,20 +9,12 @@ import {
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
 import { withNavigation } from "react-navigation";
+import { capitalizeName, extractId } from "../utils/helpers";
 
 const Grid = ({ navigation }) => {
   const [results, showInitialList, errorMessage] = getFullList();
 
   const listOfAllPokemon = results.results;
-
-  const capitalizeName = (name) => {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  };
-
-  const extractId = (url) => {
-    // https://pokeapi.co/api/v2/pokemon/
-    return url.slice(34).replace(/\/$/, "");
-  };
 
   return (
     <View style={styles.wrapper}>
