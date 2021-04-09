@@ -43,7 +43,7 @@ const StatsScreen = ({ navigation }) => {
             data={queryResults.types}
             keyExtractor={(result) => result.id}
             renderItem={({ item }) => {
-              return <Text key={item.id}>{item.type.name}</Text>;
+              return <Text key={item.url}>{item.type.name}</Text>;
             }}
           />
         </View>
