@@ -1,15 +1,28 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 
-const PokemonImage = ({ name }) => {
+// the endpoint pokemon/ from calling showInitialList in the Grid component returns the name
+
+// the endpoint pokemon/name from searchQuery in the Home screen returns an id
+
+const PokemonImage = ({ width, name, id }) => {
   return (
     <>
-      <Image
-        source={{
-          uri: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
-        }}
-        style={styles.image}
-      />
+      {id !== "" ? (
+        <Image
+          source={{
+            uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
+          }}
+          style={width === "l" ? styles.imageL : styles.image}
+        />
+      ) : (
+        <Image
+          source={{
+            uri: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
+          }}
+          style={width === "l" ? styles.imageL : styles.image}
+        />
+      )}
     </>
   );
 };
