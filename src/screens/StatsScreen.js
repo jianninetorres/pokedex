@@ -30,7 +30,7 @@ const StatsScreen = ({ navigation }) => {
           {queryResults.types ? <Text>Types</Text> : null}
           <FlatList
             data={queryResults.types}
-            keyExtractor={(result) => result.id}
+            keyExtractor={(result) => result.name}
             renderItem={({ item }) => {
               return <Text key={item.url}>{item.type.name}</Text>;
             }}
