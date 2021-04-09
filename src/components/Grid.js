@@ -19,6 +19,11 @@ const Grid = ({ navigation }) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
+  const extractId = (url) => {
+    // https://pokeapi.co/api/v2/pokemon/
+    return url.slice(34).replace(/\/$/, "");
+  };
+
   return (
     <View style={styles.wrapper}>
       <View>
@@ -31,10 +36,13 @@ const Grid = ({ navigation }) => {
               <View style={styles.pokemonContainer}>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("Stats", { name: item.name })
+                    navigation.navigate("Stats", {
+                      name: item.name,
+                      url: item.url, // https://pokeapi.co/api/v2/pokemon/
+                    })
                   }
                 >
-                  <PokemonImage name={item.name} />
+                  <PokemonImage name={item.name} id={extractId(item.url)} />
                   <Text style={styles.pokemonName}>
                     {capitalizeName(item.name)}
                   </Text>
