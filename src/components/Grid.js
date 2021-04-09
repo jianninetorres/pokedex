@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   pokemonContainer: {
     flexGrow: 1,
     padding: 10,
+    alignItems: "center",
   },
   pokemonName: {
     textAlign: "center",

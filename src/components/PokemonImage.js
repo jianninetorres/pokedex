@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     height: 120,
     resizeMode: "contain",
   },
+  imageL: {
+    width: 200,
+    height: 240,
+    resizeMode: "contain",
+  },
 });
 
 export default PokemonImage;
