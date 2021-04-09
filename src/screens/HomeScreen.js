@@ -49,9 +49,12 @@ const HomeScreen = () => {
         <View>
           <NavigationButton
             screen="Stats"
-            dataObj={{ name: queryResults.name }}
+            dataObj={{
+              name: queryResults.name,
+              url: queryResults.species.url,
+            }}
           >
-            <PokemonImage name={queryResults.name} />
+            <PokemonImage name={queryResults.name} id={queryResults.id} />
           </NavigationButton>
           <TouchableOpacity onPress={clearQuery}>
             <Text style={styles.clearButton}>Clear</Text>
