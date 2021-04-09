@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import useResults from "../hooks/useResults";
 import PokemonImage from "../components/PokemonImage";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
+  const url = navigation.getParam("url");
   const [
     queryResults,
     setResults,
@@ -16,14 +17,24 @@ const StatsScreen = ({ navigation }) => {
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
+  const extractId = (url) => {
+    // https://pokeapi.co/api/v2/pokemon/{name}
+    const regex = /\/\d{1,}\//g;
+    const match = url.match(regex);
+    const id = match[0].replace(/^\/|\/$/g, "");
+    return id;
+  };
+
   useEffect(() => {
     searchQuery(name);
   }, []);
 
   return (
-    <View>
-      <Text>Stats screen for {capitalizeName(name)}</Text>
-      <PokemonImage name={name} />
+    <View style={styles.wrapper}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{capitalizeName(name)}</Text>
+        <PokemonImage name={name} width="l" id={extractId(url)} />
+      </View>
       {queryResults ? (
         <View key={queryResults.id} style={styles.statsContainer}>
           <Text>{queryResults.id}</Text>
