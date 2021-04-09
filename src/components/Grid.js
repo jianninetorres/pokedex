@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
-import getFullList from "../hooks/getFullList";
-import PokemonImage from "../components/PokemonImage";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
 import { capitalizeName, extractId } from "../utils/helpers";
+import getFullList from "../hooks/getFullList";
+import PokemonImage from "../components/PokemonImage";
+import NavigationButton from "../components/NavigationButton";
 
 const Grid = ({ navigation }) => {
   const [results, showInitialList, errorMessage] = getFullList();
@@ -26,19 +21,18 @@ const Grid = ({ navigation }) => {
           renderItem={({ item }) => {
             return (
               <View style={styles.pokemonContainer}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("Stats", {
-                      name: item.name,
-                      url: item.url, // https://pokeapi.co/api/v2/pokemon/
-                    })
-                  }
+                <NavigationButton
+                  screen="Stats"
+                  dataObj={{
+                    name: item.name,
+                    url: item.url, // https://pokeapi.co/api/v2/pokemon/
+                  }}
                 >
                   <PokemonImage name={item.name} id={extractId(item.url)} />
                   <Text style={styles.pokemonName}>
                     {capitalizeName(item.name)}
                   </Text>
-                </TouchableOpacity>
+                </NavigationButton>
               </View>
             );
           }}
