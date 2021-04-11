@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
-import { capitalizeName, extractId } from "../utils/helpers";
+import { capitalize, extractId } from "../utils/helpers";
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
 import NavigationButton from "../components/NavigationButton";
@@ -30,7 +30,7 @@ const Grid = ({ navigation }) => {
                 >
                   <PokemonImage name={item.name} id={extractId(item.url)} />
                   <Text style={styles.pokemonName}>
-                    {capitalizeName(item.name)}
+                    {capitalize(item.name)}
                   </Text>
                 </NavigationButton>
               </View>
