@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import { capitalize, removeDashes } from "../utils/helpers";
 import useResults from "../hooks/useResults";
 import Grid from "../components/Grid";
 import SearchBar from "../components/SearchBar";
@@ -55,6 +56,7 @@ const HomeScreen = () => {
             }}
           >
             <PokemonImage name={queryResults.name} id={queryResults.id} />
+            <Text>{removeDashes(capitalize(queryResults.name))}</Text>
           </NavigationButton>
           <TouchableOpacity onPress={clearQuery}>
             <Text style={styles.clearButton}>Clear</Text>
