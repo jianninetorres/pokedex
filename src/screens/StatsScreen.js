@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import useResults from "../hooks/useResults";
 import getSpecies from "../hooks/getSpecies";
 import PokemonImage from "../components/PokemonImage";
-import { capitalizeName, extractId } from "../utils/helpers";
+import { capitalize, removeDashes } from "../utils/helpers";
+import types from "../utils/types";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
-  const url = navigation.getParam("url");
+  // const url = navigation.getParam("url");
   const [
     queryResults,
     setResults,
@@ -21,27 +22,39 @@ const StatsScreen = ({ navigation }) => {
     speciesErrorMessage,
   ] = getSpecies();
 
-  const [pokemonId, setPokemonId] = useState(0);
-
   useEffect(() => {
     searchQuery(name);
-    setPokemonId(parseInt(extractId(url)));
+    // setPokemonId(parseInt(extractId(url)));
     species(name);
   }, []);
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{capitalizeName(name)}</Text>
-        <PokemonImage name={name} width="l" id={pokemonId} />
-      </View>
-      {queryResults ? (
+    <>
+      {/* {queryResults ? ( */}
+      <View style={styles.wrapper}>
+        <View
+          style={[
+            styles.header,
+            queryResults.types
+              ? { backgroundColor: types[queryResults.types[0].type.name] }
+              : { backgroundColor: "white" },
+          ]}
+        >
+          <Text style={styles.title}>{capitalize(name)}</Text>
+          {queryResults.id ? (
+            <PokemonImage name={name} width="l" id={queryResults.id} />
+          ) : null}
+        </View>
         <View key={queryResults.id} style={styles.statsContainer}>
           <View>
-            <Text style={styles.sectionTitle}>ID: {queryResults.id}</Text>
-            <Text style={styles.sectionTitle}>
-              Base experience: {queryResults.base_experience}
-            </Text>
+            {queryResults.id ? (
+              <Text style={styles.sectionTitle}>ID: {queryResults.id}</Text>
+            ) : null}
+            {queryResults.base_experience ? (
+              <Text style={styles.sectionTitle}>
+                Base experience: {queryResults.base_experience}
+              </Text>
+            ) : null}
             {queryResults.types ? (
               <View style={styles.typesStyles}>
                 <Text style={{ fontWeight: "bold" }}>Types: </Text>
@@ -53,7 +66,7 @@ const StatsScreen = ({ navigation }) => {
                   renderItem={({ item }) => {
                     return (
                       <Text key={item.url} style={{ marginHorizontal: 5 }}>
-                        {item.type.name}
+                        {capitalize(item.type.name)}
                       </Text>
                     );
                   }}
@@ -71,23 +84,23 @@ const StatsScreen = ({ navigation }) => {
               style={styles.list}
               data={queryResults.stats}
               keyExtractor={(result) => result.stat.name}
+              scrollEnabled={false}
               renderItem={({ item }) => {
                 return (
                   <>
                     <Text key={item.stat.name} style={styles.list}>
-                      {item.stat.name}: {item.base_stat}
-                    </Text>
-                    {/* <Text key={item.base_stat} style={styles.list}>
+                      {removeDashes(capitalize(item.stat.name))}:{" "}
                       {item.base_stat}
-                    </Text> */}
+                    </Text>
                   </>
                 );
               }}
             />
           </View>
         </View>
-      ) : null}
-    </View>
+      </View>
+      {/* ) : null} */}
+    </>
   );
 };
 
@@ -110,7 +123,7 @@ const styles = StyleSheet.create({
     // borderBottomColor: "lightgrey",
     // borderLeftColor: "lightgrey",
     // borderRightColor: "lightgrey",
-    backgroundColor: "lightblue",
+    // backgroundColor: types[`${queryResults.types[0].type.name}`],
     // borderWidth: 1,
     borderTopLeftRadius: 200,
     borderTopRightRadius: 0,
@@ -134,10 +147,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   list: {
-    // marginHorizontal: 10,
+    fontSize: 15,
     marginVertical: 5,
   },
   sectionTitle: {
+    fontSize: 15,
     fontWeight: "bold",
     marginBottom: 16,
   },
