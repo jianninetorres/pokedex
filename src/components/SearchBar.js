@@ -7,7 +7,8 @@ const SearchBar = ({ query, onQueryChange, onQuerySubmit }) => {
       <TextInput
         autoCapitalize="none"
         autoCorrect={false}
-        placeholder="Search"
+        placeholder="Search by name or National Pokedex number"
+        placeholderTextColor="#818182"
         style={styles.backgroundStyle}
         value={query}
         onChangeText={onQueryChange}
@@ -20,13 +21,13 @@ const SearchBar = ({ query, onQueryChange, onQuerySubmit }) => {
 
 const styles = StyleSheet.create({
   backgroundStyle: {
-    backgroundColor: "#e1e1e1",
-    padding: 15,
+    backgroundColor: "#ebecf0",
+    padding: 10,
     height: 50,
     borderRadius: 6,
     marginHorizontal: 16,
     marginVertical: 16,
-    fontSize: 18,
+    fontSize: 13,
   },
 });
 
