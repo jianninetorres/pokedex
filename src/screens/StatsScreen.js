@@ -5,6 +5,7 @@ import getSpecies from "../hooks/getSpecies";
 import PokemonImage from "../components/PokemonImage";
 import { capitalize, removeDashes } from "../utils/helpers";
 import types from "../utils/types";
+import colours from "../utils/colours";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
@@ -37,7 +38,7 @@ const StatsScreen = ({ navigation }) => {
             styles.header,
             queryResults.types
               ? { backgroundColor: types[queryResults.types[0].type.name] }
-              : { backgroundColor: "white" },
+              : { backgroundColor: colours.default.bodyBg },
           ]}
         >
           <Text style={styles.title}>{capitalize(name)}</Text>
@@ -57,7 +58,7 @@ const StatsScreen = ({ navigation }) => {
             ) : null}
             {queryResults.types ? (
               <View style={styles.typesStyles}>
-                <Text style={{ fontWeight: "bold" }}>Types: </Text>
+                <Text style={styles.typesStylesTitle}>Types: </Text>
                 <FlatList
                   scrollEnabled={false}
                   horizontal={true}
@@ -65,7 +66,7 @@ const StatsScreen = ({ navigation }) => {
                   keyExtractor={(result) => result.type.name}
                   renderItem={({ item }) => {
                     return (
-                      <Text key={item.url} style={{ marginHorizontal: 5 }}>
+                      <Text key={item.url} style={styles.typesStylesList}>
                         {capitalize(item.type.name)}
                       </Text>
                     );
@@ -106,7 +107,7 @@ const StatsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "white",
+    backgroundColor: colours.default.bodyBg,
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginBottom: 32,
+    color: colours.default.bodyBg,
   },
   statsContainer: {
     padding: 32,
@@ -149,15 +151,25 @@ const styles = StyleSheet.create({
   list: {
     fontSize: 15,
     marginVertical: 5,
+    color: colours.default.font,
   },
   sectionTitle: {
     fontSize: 15,
     fontWeight: "bold",
     marginBottom: 16,
+    color: colours.default.font,
   },
   typesStyles: {
     display: "flex",
     flexDirection: "row",
+  },
+  typesStylesTitle: {
+    fontWeight: "bold",
+    color: colours.default.font,
+  },
+  typesStylesList: {
+    marginHorizontal: 5,
+    color: colours.default.font,
   },
 });
 
