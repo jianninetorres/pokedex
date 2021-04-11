@@ -1,12 +1,11 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { withNavigation } from "react-navigation";
 import { capitalize, extractId } from "../utils/helpers";
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
 import NavigationButton from "../components/NavigationButton";
 
-const Grid = ({ navigation }) => {
+const Grid = () => {
   const [results, showInitialList, errorMessage] = getFullList();
 
   const listOfAllPokemon = results.results;
@@ -58,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Grid);
+export default Grid;
