@@ -38,12 +38,26 @@ const StatsScreen = ({ navigation }) => {
             queryResults.types
               ? {
                   backgroundColor:
-                    colours.pokemonTypes[queryResults.types[0].type.name],
+                    colours.pokemonTypes[queryResults.types[0].type.name]
+                      .bgColour,
                 }
               : { backgroundColor: colours.default.bodyBg },
           ]}
         >
-          <Text style={styles.title}>{capitalize(name)}</Text>
+          <Text
+            style={[
+              styles.title,
+              queryResults.types
+                ? {
+                    color:
+                      colours.pokemonTypes[queryResults.types[0].type.name]
+                        .textColour,
+                  }
+                : { color: colours.default.bodyBg },
+            ]}
+          >
+            {capitalize(name)}
+          </Text>
           {queryResults.id ? (
             <PokemonImage name={name} width="l" id={queryResults.id} />
           ) : null}
