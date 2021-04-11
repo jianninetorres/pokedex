@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     marginBottom: 32,
-    color: colours.default.bodyBg,
+    maxWidth: 320,
   },
   statsContainer: {
     padding: 32,
