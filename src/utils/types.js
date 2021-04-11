@@ -15,7 +15,7 @@ const types = {
   ground: "#6B6454",
   rock: "#9C9B98",
   bug: "#A8B820",
-  ghost: "#574275",
+  ghost: "#796991",
   steel: "#B8B8D0",
   unknown: "#68A090",
 };
