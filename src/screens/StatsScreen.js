@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import useResults from "../hooks/useResults";
+import getSpecies from "../hooks/getSpecies";
 import PokemonImage from "../components/PokemonImage";
 import { capitalizeName, extractId } from "../utils/helpers";
 
@@ -13,28 +14,77 @@ const StatsScreen = ({ navigation }) => {
     searchQuery,
     queryErrorMessage,
   ] = useResults();
+  const [
+    species,
+    setSpeciesResults,
+    speciesResults,
+    speciesErrorMessage,
+  ] = getSpecies();
+
+  const [pokemonId, setPokemonId] = useState(0);
 
   useEffect(() => {
     searchQuery(name);
+    setPokemonId(parseInt(extractId(url)));
+    species(name);
   }, []);
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.header}>
         <Text style={styles.title}>{capitalizeName(name)}</Text>
-        <PokemonImage name={name} width="l" id={extractId(url)} />
+        <PokemonImage name={name} width="l" id={pokemonId} />
       </View>
       {queryResults ? (
         <View key={queryResults.id} style={styles.statsContainer}>
-          <Text>{queryResults.id}</Text>
-          {queryResults.types ? <Text>Types</Text> : null}
-          <FlatList
-            data={queryResults.types}
-            keyExtractor={(result) => result.name}
-            renderItem={({ item }) => {
-              return <Text key={item.url}>{item.type.name}</Text>;
-            }}
-          />
+          <View>
+            <Text style={styles.sectionTitle}>ID: {queryResults.id}</Text>
+            <Text style={styles.sectionTitle}>
+              Base experience: {queryResults.base_experience}
+            </Text>
+            {queryResults.types ? (
+              <View style={styles.typesStyles}>
+                <Text style={{ fontWeight: "bold" }}>Types: </Text>
+                <FlatList
+                  scrollEnabled={false}
+                  horizontal={true}
+                  data={queryResults.types}
+                  keyExtractor={(result) => result.type.name}
+                  renderItem={({ item }) => {
+                    return (
+                      <Text key={item.url} style={{ marginHorizontal: 5 }}>
+                        {item.type.name}
+                      </Text>
+                    );
+                  }}
+                />
+              </View>
+            ) : null}
+          </View>
+          <View>
+            <Text>
+              {queryResults.types ? (
+                <Text style={styles.sectionTitle}>Stats</Text>
+              ) : null}
+            </Text>
+            <FlatList
+              style={styles.list}
+              data={queryResults.stats}
+              keyExtractor={(result) => result.stat.name}
+              renderItem={({ item }) => {
+                return (
+                  <>
+                    <Text key={item.stat.name} style={styles.list}>
+                      {item.stat.name}: {item.base_stat}
+                    </Text>
+                    {/* <Text key={item.base_stat} style={styles.list}>
+                      {item.base_stat}
+                    </Text> */}
+                  </>
+                );
+              }}
+            />
+          </View>
         </View>
       ) : null}
     </View>
@@ -45,6 +95,7 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: "white",
     flex: 1,
+    justifyContent: "flex-start",
     alignItems: "center",
     position: "relative",
   },
@@ -61,10 +112,10 @@ const styles = StyleSheet.create({
     // borderRightColor: "lightgrey",
     backgroundColor: "lightblue",
     // borderWidth: 1,
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 120,
-    borderBottomRightRadius: 120,
+    // borderTopLeftRadius: 0,
+    // borderTopRightRadius: 200,
+    // borderBottomLeftRadius: 0,
+    // borderBottomRightRadius: 200,
   },
   title: {
     fontSize: 36,
@@ -72,8 +123,27 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   statsContainer: {
-    marginTop: 32,
+    padding: 32,
     // padding: 64,
+    // borderStyle: "solid",
+    borderWidth: 1,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  list: {
+    // marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  typesStyles: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
 
