@@ -4,7 +4,6 @@ import useResults from "../hooks/useResults";
 import getSpecies from "../hooks/getSpecies";
 import PokemonImage from "../components/PokemonImage";
 import { capitalize, removeDashes } from "../utils/helpers";
-import types from "../utils/types";
 import colours from "../utils/colours";
 
 const StatsScreen = ({ navigation }) => {
@@ -37,7 +36,10 @@ const StatsScreen = ({ navigation }) => {
           style={[
             styles.header,
             queryResults.types
-              ? { backgroundColor: types[queryResults.types[0].type.name] }
+              ? {
+                  backgroundColor:
+                    colours.pokemonTypes[queryResults.types[0].type.name],
+                }
               : { backgroundColor: colours.default.bodyBg },
           ]}
         >
