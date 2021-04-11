@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "CJ's Pokedex app project. Built with React Native.",
+    "githubUrl": "https://github.com/jianninetorres/pokedex"
   }
 }
