@@ -11,7 +11,7 @@ const colours = {
     psychic: "#5E6DD6",
     ice: "#98D8D8",
     dragon: "#8964E3",
-    dark: "#21214A",
+    dark: "#0a2d69",
     fairy: "#FFC7D4",
     normal: "#FFF5E0",
     fighting: "#D94343",
