@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import useResults from "../hooks/useResults";
 import getSpecies from "../hooks/getSpecies";
@@ -91,7 +91,7 @@ const StatsScreen = ({ navigation }) => {
               </View>
             ) : null}
           </View>
-          <View>
+          {/* <View>
             <Text>
               {queryResults.types ? (
                 <Text style={styles.sectionTitle}>Stats</Text>
@@ -108,6 +108,28 @@ const StatsScreen = ({ navigation }) => {
                     <Text key={item.stat.name} style={styles.list}>
                       {removeDashes(capitalize(item.stat.name))}:{" "}
                       {item.base_stat}
+                    </Text>
+                  </>
+                );
+              }}
+            />
+          </View> */}
+          <View>
+            <Text>
+              {queryResults.abilities ? (
+                <Text style={styles.sectionTitle}>Abilities</Text>
+              ) : null}
+            </Text>
+            <FlatList
+              style={styles.list}
+              data={queryResults.abilities}
+              keyExtractor={(result) => result.ability.name}
+              scrollEnabled={true}
+              renderItem={({ item }) => {
+                return (
+                  <>
+                    <Text key={item.ability.name} style={styles.list}>
+                      {removeDashes(capitalize(item.ability.name))}
                     </Text>
                   </>
                 );
