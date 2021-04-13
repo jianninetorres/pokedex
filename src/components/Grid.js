@@ -29,7 +29,7 @@ const Grid = () => {
                 >
                   <PokemonImage name={item.name} id={extractId(item.url)} />
                   <Text style={styles.pokemonName}>
-                    {capitalize(item.name)}
+                    #{extractId(item.url)} {capitalize(item.name)}
                   </Text>
                 </NavigationButton>
               </View>
