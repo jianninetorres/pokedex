@@ -5,6 +5,7 @@ const colours = {
   default: {
     bodyBg: dark,
     font: white,
+    navigator: "#0a2d69",
   },
   pokemonTypes: {
     fire: {

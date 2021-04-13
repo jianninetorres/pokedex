@@ -29,7 +29,7 @@ const PokemonImage = ({ width, name, id }) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: 100,
+    width: 90,
     height: 120,
     resizeMode: "contain",
   },

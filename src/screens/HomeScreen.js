@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { capitalize, removeDashes } from "../utils/helpers";
+import colours from "../utils/colours";
 import useResults from "../hooks/useResults";
 import Grid from "../components/Grid";
 import SearchBar from "../components/SearchBar";
@@ -55,8 +56,13 @@ const HomeScreen = () => {
               url: queryResults.species.url,
             }}
           >
-            <PokemonImage name={queryResults.name} id={queryResults.id} />
-            <Text>{removeDashes(capitalize(queryResults.name))}</Text>
+            <View style={styles.pokemonContainer}>
+              <PokemonImage name={queryResults.name} id={queryResults.id} />
+              <Text style={styles.name}>#{queryResults.id}</Text>
+              <Text style={styles.name}>
+                {removeDashes(capitalize(queryResults.name))}
+              </Text>
+            </View>
           </NavigationButton>
           <TouchableOpacity onPress={clearQuery}>
             <Text style={styles.clearButton}>Clear</Text>
@@ -71,7 +77,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: "white",
+    backgroundColor: colours.default.bodyBg,
     flexGrow: 1,
   },
   title: {
@@ -80,6 +86,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     marginBottom: 20,
+  },
+  pokemonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 120,
+  },
+  name: {
+    color: colours.default.font,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   clearButton: {
     backgroundColor: "hotpink",

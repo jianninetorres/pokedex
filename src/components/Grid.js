@@ -4,6 +4,7 @@ import { capitalize, extractId } from "../utils/helpers";
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
 import NavigationButton from "../components/NavigationButton";
+import colours from "../utils/colours";
 
 const Grid = () => {
   const [results, showInitialList, errorMessage] = getFullList();
@@ -54,6 +55,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
+    color: colours.default.font,
   },
 });
 
