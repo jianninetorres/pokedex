@@ -96,7 +96,6 @@ const StatsScreen = ({ navigation }) => {
                 <View style={styles.typesStyles}>
                   <FlatList
                     scrollEnabled={false}
-                    horizontal={true}
                     data={queryResults.types}
                     keyExtractor={(result) => result.type.name}
                     renderItem={({ item }) => {
@@ -126,9 +125,11 @@ const StatsScreen = ({ navigation }) => {
               {queryResults.base_experience ? (
                 <>
                   <Text style={styles.sectionTitle}>Base experience</Text>
-                  <Text style={styles.list}>
-                    {queryResults.base_experience}
-                  </Text>
+                  <View style={styles.listContainer}>
+                    <Text style={styles.list}>
+                      {queryResults.base_experience}
+                    </Text>
+                  </View>
                 </>
               ) : null}
             </View>
@@ -147,41 +148,15 @@ const StatsScreen = ({ navigation }) => {
               scrollEnabled={false}
               renderItem={({ item }) => {
                 return (
-                  <>
+                  <View style={styles.listContainer}>
                     <Text key={item.stat.name} style={styles.list}>
                       {removeDashes(capitalize(item.stat.name))}:{" "}
                       {item.base_stat}
                     </Text>
-                  </>
+                  </View>
                 );
               }}
             />
-          </View>
-          {/* Moves */}
-          <View style={[styles.statsContainer, styles.statsContainerRow]}>
-            <View>
-              <Text>
-                {queryResults.moves ? (
-                  <Text style={styles.sectionTitle}>Moves</Text>
-                ) : null}
-              </Text>
-              <FlatList
-                style={styles.list}
-                data={queryResults.moves}
-                keyExtractor={(result) => result.move.name}
-                scrollEnabled={true}
-                numColumns={3}
-                renderItem={({ item }) => {
-                  return (
-                    <>
-                      <Text key={item.move.name} style={styles.list}>
-                        {removeDashes(capitalize(item.move.name))}
-                      </Text>
-                    </>
-                  );
-                }}
-              />
-            </View>
           </View>
           {/* Damage relations */}
           <View style={[styles.statsContainer, styles.statsContainerColumn]}>
@@ -189,40 +164,88 @@ const StatsScreen = ({ navigation }) => {
               <Text style={styles.sectionTitle}>Damage Relations</Text>
               {typesResults[0] ? (
                 <>
-                  <Text style={styles.sectionTitle}>Double Damage from</Text>
-                  <FlatList
-                    style={styles.list}
-                    data={typesResults[0].double_damage_from}
-                    keyExtractor={(result) => result.name}
-                    scrollEnabled={true}
-                    renderItem={({ item }) => {
-                      return (
-                        <>
-                          <Text key={item.name} style={styles.list}>
-                            {item.name}
-                          </Text>
-                        </>
-                      );
-                    }}
-                  />
-                  <Text style={styles.sectionTitle}>Double Damage to</Text>
-                  <FlatList
-                    style={styles.list}
-                    data={typesResults[0].double_damage_to}
-                    keyExtractor={(result) => result.name}
-                    scrollEnabled={true}
-                    renderItem={({ item }) => {
-                      return (
-                        <>
-                          <Text key={item.name} style={styles.list}>
-                            {item.name}
-                          </Text>
-                        </>
-                      );
-                    }}
-                  />
+                  <View
+                    style={[styles.statsContainer, styles.statsContainerRow]}
+                  >
+                    <Text style={styles.sectionSecondaryTitle}>
+                      Double Damage from
+                    </Text>
+                    <FlatList
+                      data={typesResults[0].double_damage_from}
+                      keyExtractor={(result) => result.name}
+                      scrollEnabled={true}
+                      renderItem={({ item }) => {
+                        return (
+                          <View
+                            style={[styles.listContainer, { marginTop: 0 }]}
+                          >
+                            <Text key={item.name} style={styles.list}>
+                              {item.name}
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={[styles.statsContainer, styles.statsContainerRow]}
+                  >
+                    <Text style={styles.sectionSecondaryTitle}>
+                      Double Damage to
+                    </Text>
+                    <FlatList
+                      data={typesResults[0].double_damage_to}
+                      keyExtractor={(result) => result.name}
+                      scrollEnabled={true}
+                      renderItem={({ item }) => {
+                        return (
+                          <View
+                            style={[styles.listContainer, { marginTop: 0 }]}
+                          >
+                            <Text key={item.name} style={styles.list}>
+                              {item.name}
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    />
+                  </View>
                 </>
               ) : null}
+            </View>
+          </View>
+          {/* Moves */}
+          <View style={[styles.statsContainer, styles.statsContainerColumn]}>
+            <Text>
+              {queryResults.moves ? (
+                <Text style={styles.sectionTitle}>Moves</Text>
+              ) : null}
+            </Text>
+            <View>
+              <FlatList
+                style={styles.list}
+                data={queryResults.moves}
+                keyExtractor={(result) => result.move.name}
+                scrollEnabled={true}
+                numColumns={2}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.moveContainer}>
+                      <Text
+                        key={item.move.name}
+                        style={[
+                          styles.list,
+                          {
+                            alignSelf: "flex-start",
+                          },
+                        ]}
+                      >
+                        {removeDashes(capitalize(item.move.name))}
+                      </Text>
+                    </View>
+                  );
+                }}
+              />
             </View>
           </View>
         </View>
@@ -246,13 +269,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 48,
     paddingBottom: 48,
-    // borderStyle: "solid",
-    // borderTopColor: "transparent",
-    // borderBottomColor: "lightgrey",
-    // borderLeftColor: "lightgrey",
-    // borderRightColor: "lightgrey",
-    // backgroundColor: types[`${queryResults.types[0].type.name}`],
-    // borderWidth: 1,
     borderTopLeftRadius: 200,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 200,
@@ -266,35 +282,41 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     padding: 32,
-    // padding: 64,
-    // borderStyle: "solid",
-    // borderWidth: 1,
     width: "100%",
-    // height: "100%",
     display: "flex",
   },
   statsContainerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "orange",
+    alignItems: "flex-start",
+    // borderWidth: 1,
+    // borderColor: "orange",
+    // backgroundColor: colours.default.navigator,
   },
   statsContainerColumn: {
     flexDirection: "column",
     justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "blue",
+    // borderWidth: 1,
+    // borderColor: "blue",
+  },
+  listContainer: {
+    marginVertical: 8,
   },
   list: {
     fontSize: 15,
-    marginVertical: 5,
-    marginHorizontal: 5,
+    // marginVertical: 5,
     color: colours.default.font,
   },
   sectionTitle: {
-    fontSize: 15,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
+    color: colours.default.font,
+  },
+  sectionSecondaryTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginRight: 4,
     color: colours.default.font,
   },
   typesStyles: {
@@ -309,11 +331,11 @@ const styles = StyleSheet.create({
   typesStylesList: {
     marginHorizontal: 5,
     color: colours.default.font,
-    alignSelf: "center",
+    alignSelf: "flex-start",
   },
   typeContainer: {
     backgroundColor: colours.default.typeBackground,
-    marginRight: 4,
+    marginVertical: 4,
     padding: 5,
     borderRadius: 6,
   },
@@ -321,6 +343,11 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     alignSelf: "center",
+  },
+  moveContainer: {
+    width: "100%",
+    maxWidth: 110,
+    marginVertical: 8,
   },
 });
 
