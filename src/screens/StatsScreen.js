@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
 import useResults from "../hooks/useResults";
 import getSpecies from "../hooks/getSpecies";
+import getTypes from "../hooks/getTypes";
 import PokemonImage from "../components/PokemonImage";
 import { capitalize, removeDashes } from "../utils/helpers";
 import colours from "../utils/colours";
@@ -21,77 +22,119 @@ const StatsScreen = ({ navigation }) => {
     speciesResults,
     speciesErrorMessage,
   ] = getSpecies();
+  const [typesQuery, typesResults, setTypesResults] = getTypes();
 
   useEffect(() => {
     searchQuery(name);
     // setPokemonId(parseInt(extractId(url)));
     species(name);
+    typesQuery(name);
   }, []);
 
   return (
     <>
       {/* {queryResults ? ( */}
-      <View style={styles.wrapper}>
-        <View
-          style={[
-            styles.header,
-            queryResults.types
-              ? {
-                  backgroundColor:
-                    colours.pokemonTypes[queryResults.types[0].type.name]
-                      .bgColour,
-                }
-              : { backgroundColor: colours.default.bodyBg },
-          ]}
-        >
-          <Text
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+      >
+        <View style={styles.wrapper}>
+          {/* header */}
+          <View
             style={[
-              styles.title,
+              styles.header,
               queryResults.types
                 ? {
-                    color:
+                    backgroundColor:
                       colours.pokemonTypes[queryResults.types[0].type.name]
-                        .textColour,
+                        .bgColour,
                   }
-                : { color: colours.default.bodyBg },
+                : { backgroundColor: colours.default.bodyBg },
             ]}
           >
-            {capitalize(name)}
-          </Text>
-          {queryResults.id ? (
-            <PokemonImage name={name} width="l" id={queryResults.id} />
-          ) : null}
-        </View>
-        <View key={queryResults.id} style={styles.statsContainer}>
-          <View>
+            <Text
+              style={
+                queryResults.types
+                  ? {
+                      color:
+                        colours.pokemonTypes[queryResults.types[0].type.name]
+                          .textColour,
+                    }
+                  : { color: colours.default.bodyBg }
+              }
+            >
+              # {queryResults.id}
+            </Text>
+            <Text
+              style={[
+                styles.title,
+                queryResults.types
+                  ? {
+                      color:
+                        colours.pokemonTypes[queryResults.types[0].type.name]
+                          .textColour,
+                    }
+                  : { color: colours.default.bodyBg },
+              ]}
+            >
+              {capitalize(name)}
+            </Text>
             {queryResults.id ? (
-              <Text style={styles.sectionTitle}>ID: {queryResults.id}</Text>
-            ) : null}
-            {queryResults.base_experience ? (
-              <Text style={styles.sectionTitle}>
-                Base experience: {queryResults.base_experience}
-              </Text>
-            ) : null}
-            {queryResults.types ? (
-              <View style={styles.typesStyles}>
-                <Text style={styles.typesStylesTitle}>Types: </Text>
-                <FlatList
-                  scrollEnabled={false}
-                  horizontal={true}
-                  data={queryResults.types}
-                  keyExtractor={(result) => result.type.name}
-                  renderItem={({ item }) => {
-                    return (
-                      <Text key={item.url} style={styles.typesStylesList}>
-                        {capitalize(item.type.name)}
-                      </Text>
-                    );
-                  }}
-                />
-              </View>
+              <>
+                <PokemonImage name={name} width="l" id={queryResults.id} />
+              </>
             ) : null}
           </View>
-          {/* <View>
+          {/* Types and base experience */}
+          <View
+            key={queryResults.id}
+            style={[styles.statsContainer, styles.statsContainerRow]}
+          >
+            <View>
+              {queryResults.types ? (
+                <View style={styles.typesStyles}>
+                  <FlatList
+                    scrollEnabled={false}
+                    horizontal={true}
+                    data={queryResults.types}
+                    keyExtractor={(result) => result.type.name}
+                    renderItem={({ item }) => {
+                      return (
+                        <View style={styles.typeContainer}>
+                          <Text key={item.url} style={styles.typesStylesList}>
+                            <View
+                              style={[
+                                styles.typeColor,
+                                {
+                                  backgroundColor:
+                                    colours.pokemonTypes[item.type.name]
+                                      .bgColour,
+                                },
+                              ]}
+                            ></View>{" "}
+                            {capitalize(item.type.name)}
+                          </Text>
+                        </View>
+                      );
+                    }}
+                  />
+                </View>
+              ) : null}
+            </View>
+            <View>
+              {queryResults.base_experience ? (
+                <>
+                  <Text style={styles.sectionTitle}>Base experience</Text>
+                  <Text style={styles.list}>
+                    {queryResults.base_experience}
+                  </Text>
+                </>
+              ) : null}
+            </View>
+          </View>
+          {/* Stats */}
+          <View style={[styles.statsContainer, styles.statsContainerColumn]}>
             <Text>
               {queryResults.types ? (
                 <Text style={styles.sectionTitle}>Stats</Text>
@@ -113,31 +156,77 @@ const StatsScreen = ({ navigation }) => {
                 );
               }}
             />
-          </View> */}
-          <View>
-            <Text>
-              {queryResults.abilities ? (
-                <Text style={styles.sectionTitle}>Abilities</Text>
+          </View>
+          {/* Moves */}
+          <View style={[styles.statsContainer, styles.statsContainerRow]}>
+            <View>
+              <Text>
+                {queryResults.moves ? (
+                  <Text style={styles.sectionTitle}>Moves</Text>
+                ) : null}
+              </Text>
+              <FlatList
+                style={styles.list}
+                data={queryResults.moves}
+                keyExtractor={(result) => result.move.name}
+                scrollEnabled={true}
+                numColumns={3}
+                renderItem={({ item }) => {
+                  return (
+                    <>
+                      <Text key={item.move.name} style={styles.list}>
+                        {removeDashes(capitalize(item.move.name))}
+                      </Text>
+                    </>
+                  );
+                }}
+              />
+            </View>
+          </View>
+          {/* Damage relations */}
+          <View style={[styles.statsContainer, styles.statsContainerColumn]}>
+            <View>
+              <Text style={styles.sectionTitle}>Damage Relations</Text>
+              {typesResults[0] ? (
+                <>
+                  <Text style={styles.sectionTitle}>Double Damage from</Text>
+                  <FlatList
+                    style={styles.list}
+                    data={typesResults[0].double_damage_from}
+                    keyExtractor={(result) => result.name}
+                    scrollEnabled={true}
+                    renderItem={({ item }) => {
+                      return (
+                        <>
+                          <Text key={item.name} style={styles.list}>
+                            {item.name}
+                          </Text>
+                        </>
+                      );
+                    }}
+                  />
+                  <Text style={styles.sectionTitle}>Double Damage to</Text>
+                  <FlatList
+                    style={styles.list}
+                    data={typesResults[0].double_damage_to}
+                    keyExtractor={(result) => result.name}
+                    scrollEnabled={true}
+                    renderItem={({ item }) => {
+                      return (
+                        <>
+                          <Text key={item.name} style={styles.list}>
+                            {item.name}
+                          </Text>
+                        </>
+                      );
+                    }}
+                  />
+                </>
               ) : null}
-            </Text>
-            <FlatList
-              style={styles.list}
-              data={queryResults.abilities}
-              keyExtractor={(result) => result.ability.name}
-              scrollEnabled={true}
-              renderItem={({ item }) => {
-                return (
-                  <>
-                    <Text key={item.ability.name} style={styles.list}>
-                      {removeDashes(capitalize(item.ability.name))}
-                    </Text>
-                  </>
-                );
-              }}
-            />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
       {/* ) : null} */}
     </>
   );
@@ -181,14 +270,25 @@ const styles = StyleSheet.create({
     // borderStyle: "solid",
     // borderWidth: 1,
     width: "100%",
-    height: "100%",
+    // height: "100%",
     display: "flex",
+  },
+  statsContainerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "orange",
+  },
+  statsContainerColumn: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "blue",
   },
   list: {
     fontSize: 15,
     marginVertical: 5,
+    marginHorizontal: 5,
     color: colours.default.font,
   },
   sectionTitle: {
@@ -200,6 +300,7 @@ const styles = StyleSheet.create({
   typesStyles: {
     display: "flex",
     flexDirection: "row",
+    overflow: "hidden",
   },
   typesStylesTitle: {
     fontWeight: "bold",
@@ -208,6 +309,18 @@ const styles = StyleSheet.create({
   typesStylesList: {
     marginHorizontal: 5,
     color: colours.default.font,
+    alignSelf: "center",
+  },
+  typeContainer: {
+    backgroundColor: colours.default.typeBackground,
+    marginRight: 4,
+    padding: 5,
+    borderRadius: 6,
+  },
+  typeColor: {
+    width: 10,
+    height: 10,
+    alignSelf: "center",
   },
 });
 

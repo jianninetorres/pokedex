@@ -6,6 +6,7 @@ const colours = {
     bodyBg: dark,
     font: white,
     navigator: "#0a2d69",
+    typeBackground: "#234887",
   },
   pokemonTypes: {
     fire: {
