@@ -63,7 +63,7 @@ const colours = {
       textColour: dark,
     },
     ground: {
-      bgColour: "#6B6454",
+      bgColour: "#57503f",
       textColour: white,
     },
     rock: {
@@ -71,7 +71,7 @@ const colours = {
       textColour: dark,
     },
     bug: {
-      bgColour: "#9C9B98",
+      bgColour: "#61874e",
       textColour: dark,
     },
     ghost: {
