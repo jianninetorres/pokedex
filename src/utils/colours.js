@@ -4,7 +4,8 @@ const dark = "#111330";
 const colours = {
   default: {
     bodyBg: dark,
-    font: white,
+    fontWhite: white,
+    fontDark: dark,
     navigator: "#0a2d69",
     typeBackground: "#234887",
   },

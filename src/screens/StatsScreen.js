@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  SectionList,
+} from "react-native";
 import useResults from "../hooks/useResults";
 import getSpecies from "../hooks/getSpecies";
 import getTypes from "../hooks/getTypes";
@@ -122,7 +129,7 @@ const StatsScreen = ({ navigation }) => {
                   <>
                     <Text style={styles.sectionTitle}>Base experience</Text>
                     <View style={styles.listContainer}>
-                      <Text style={styles.list}>
+                      <Text style={[styles.list, styles.listWhite]}>
                         {queryResults.base_experience}
                       </Text>
                     </View>
@@ -136,14 +143,17 @@ const StatsScreen = ({ navigation }) => {
                   <Text style={styles.sectionTitle}>Stats</Text>
                 </Text>
                 <FlatList
-                  style={styles.list}
+                  style={[styles.list, styles.listWhite]}
                   data={queryResults.stats}
                   keyExtractor={(result) => result.stat.name}
                   scrollEnabled={false}
                   renderItem={({ item }) => {
                     return (
                       <View style={styles.listContainer}>
-                        <Text key={item.stat.name} style={styles.list}>
+                        <Text
+                          key={item.stat.name}
+                          style={[styles.list, styles.listWhite]}
+                        >
                           {removeDashes(capitalize(item.stat.name))}:{" "}
                           {item.base_stat}
                         </Text>
@@ -152,65 +162,145 @@ const StatsScreen = ({ navigation }) => {
                   }}
                 />
               </View>
-              <View
-                style={[styles.statsContainer, styles.statsContainerColumn]}
-              >
+              <Text style={[styles.sectionTitle, { marginBottom: 0 }]}>
+                Damage Relations
+              </Text>
+              <View style={[styles.statsContainer, styles.statsContainerRow]}>
                 <View>
-                  <Text style={styles.sectionTitle}>Damage Relations</Text>
+                  <Text style={styles.sectionSecondaryTitle}>Strengths</Text>
                   {typesResults[0] ? (
                     <>
-                      <View
-                        style={[
-                          styles.statsContainer,
-                          styles.statsContainerRow,
+                      <SectionList
+                        sections={[
+                          {
+                            title: "2x damage",
+                            data: typesResults[0].double_damage_to,
+                          },
+                          {
+                            title: "1/2 damage",
+                            data: typesResults[0].half_damage_to,
+                          },
+                          {
+                            title: "No damage",
+                            data: typesResults[0].no_damage_to,
+                          },
                         ]}
-                      >
-                        <Text style={styles.sectionSecondaryTitle}>
-                          Double Damage from
-                        </Text>
-                        <FlatList
-                          data={typesResults[0].double_damage_from}
-                          keyExtractor={(result) => result.name}
-                          scrollEnabled={true}
-                          renderItem={({ item }) => {
-                            return (
-                              <View
-                                style={[styles.listContainer, { marginTop: 0 }]}
+                        keyExtractor={(item, index) => item + index}
+                        renderItem={({ item }) => {
+                          return (
+                            <View
+                              style={[
+                                styles.listContainer,
+                                { borderRadius: 20, overflow: "hidden" },
+                              ]}
+                            >
+                              <Text
+                                key={item.name}
+                                style={[
+                                  styles.list,
+                                  styles.listDark,
+                                  {
+                                    backgroundColor:
+                                      colours.pokemonTypes[item.name].bgColour,
+                                    fontWeight: "bold",
+                                    paddingVertical: 2,
+                                    paddingHorizontal: 10,
+                                  },
+                                ]}
                               >
-                                <Text key={item.name} style={styles.list}>
-                                  {item.name}
+                                {item.name}
+                              </Text>
+                            </View>
+                          );
+                        }}
+                        renderSectionHeader={({ section: { title, data } }) => (
+                          <>
+                            {data.length > 0 ? (
+                              <Text style={styles.sectionSecondaryTitle}>
+                                {title}
+                              </Text>
+                            ) : (
+                              <>
+                                <Text style={styles.sectionSecondaryTitle}>
+                                  {title}
                                 </Text>
-                              </View>
-                            );
-                          }}
-                        />
-                      </View>
-                      <View
-                        style={[
-                          styles.statsContainer,
-                          styles.statsContainerRow,
+                                <Text style={[styles.list, styles.listWhite]}>
+                                  -
+                                </Text>
+                              </>
+                            )}
+                          </>
+                        )}
+                      />
+                    </>
+                  ) : null}
+                </View>
+                <View>
+                  <Text style={styles.sectionSecondaryTitle}>Weaknesses</Text>
+                  {typesResults[0] ? (
+                    <>
+                      <SectionList
+                        sections={[
+                          {
+                            title: "2x damage",
+                            data: typesResults[0].double_damage_from,
+                          },
+                          {
+                            title: "1/2 damage",
+                            data: typesResults[0].half_damage_from,
+                          },
+                          {
+                            title: "No damage",
+                            data: typesResults[0].no_damage_from,
+                          },
                         ]}
-                      >
-                        <Text style={styles.sectionSecondaryTitle}>
-                          Double Damage to
-                        </Text>
-                        <FlatList
-                          data={typesResults[0].double_damage_to}
-                          keyExtractor={(result) => result.name}
-                          scrollEnabled={true}
-                          renderItem={({ item }) => {
-                            return (
-                              <View
-                                style={[styles.listContainer, { marginTop: 0 }]}
+                        keyExtractor={(item, index) => item + index}
+                        renderItem={({ item }) => {
+                          return (
+                            <View
+                              style={[
+                                styles.listContainer,
+                                { borderRadius: 20, overflow: "hidden" },
+                              ]}
+                            >
+                              <Text
+                                key={item.name}
+                                style={[
+                                  styles.list,
+                                  styles.listDark,
+                                  {
+                                    backgroundColor:
+                                      colours.pokemonTypes[item.name].bgColour,
+                                    fontWeight: "bold",
+                                    paddingVertical: 2,
+                                    paddingHorizontal: 10,
+                                  },
+                                ]}
                               >
-                                <Text key={item.name} style={styles.list}>
-                                  {item.name}
+                                {item.name}
+                              </Text>
+                            </View>
+                          );
+                        }}
+                        renderSectionHeader={({ section: { title, data } }) => (
+                          <>
+                            {data.length > 0 ? (
+                              <Text style={styles.sectionSecondaryTitle}>
+                                {title}
+                              </Text>
+                            ) : (
+                              <>
+                                <Text style={styles.sectionSecondaryTitle}>
+                                  {title}
                                 </Text>
-                              </View>
-                            );
-                          }}
-                        />
-                      </View>
+                                <Text style={[styles.list, styles.listWhite]}>
+                                  -
+                                </Text>
+                              </>
+                            )}
+                          </>
+                        )}
+                      />
                     </>
                   ) : null}
                 </View>
@@ -218,35 +308,31 @@ const StatsScreen = ({ navigation }) => {
               <View
                 style={[styles.statsContainer, styles.statsContainerColumn]}
               >
-                <Text>
-                  <Text style={styles.sectionTitle}>Moves</Text>
-                </Text>
-                <View>
-                  <FlatList
-                    style={styles.list}
-                    data={queryResults.moves}
-                    keyExtractor={(result) => result.move.name}
-                    scrollEnabled={true}
-                    numColumns={2}
-                    renderItem={({ item }) => {
-                      return (
-                        <View style={styles.moveContainer}>
-                          <Text
-                            key={item.move.name}
-                            style={[
-                              styles.list,
-                              {
-                                alignSelf: "flex-start",
-                              },
-                            ]}
-                          >
-                            {removeDashes(capitalize(item.move.name))}
-                          </Text>
-                        </View>
-                      );
-                    }}
-                  />
-                </View>
+                <Text style={styles.sectionTitle}>Moves</Text>
+                <FlatList
+                  data={queryResults.moves}
+                  keyExtractor={(result) => result.move.name}
+                  scrollEnabled={true}
+                  numColumns={2}
+                  renderItem={({ item }) => {
+                    return (
+                      <View style={styles.moveContainer}>
+                        <Text
+                          key={item.move.name}
+                          style={[
+                            styles.list,
+                            styles.listWhite,
+                            {
+                              alignSelf: "flex-start",
+                            },
+                          ]}
+                        >
+                          {removeDashes(capitalize(item.move.name))}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
             </>
           ) : null}
@@ -282,7 +368,8 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   statsContainer: {
-    padding: 32,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
     width: "100%",
     display: "flex",
   },
@@ -290,35 +377,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    // borderWidth: 1,
-    // borderColor: "orange",
-    // backgroundColor: colours.default.navigator,
   },
   statsContainerColumn: {
     flexDirection: "column",
     justifyContent: "space-between",
-    // borderWidth: 1,
-    // borderColor: "blue",
   },
   listContainer: {
     marginVertical: 8,
   },
   list: {
     fontSize: 15,
-    // marginVertical: 5,
-    color: colours.default.font,
+  },
+  listWhite: {
+    color: colours.default.fontWhite,
+  },
+  listDark: {
+    color: colours.default.fontDark,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
-    color: colours.default.font,
+    color: colours.default.fontWhite,
   },
   sectionSecondaryTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginRight: 4,
-    color: colours.default.font,
+    marginVertical: 16,
+    color: colours.default.fontWhite,
   },
   typesStyles: {
     display: "flex",
@@ -327,11 +414,11 @@ const styles = StyleSheet.create({
   },
   typesStylesTitle: {
     fontWeight: "bold",
-    color: colours.default.font,
+    color: colours.default.fontWhite,
   },
   typesStylesList: {
     marginHorizontal: 5,
-    color: colours.default.font,
+    color: colours.default.fontWhite,
     alignSelf: "flex-start",
   },
   typeContainer: {
