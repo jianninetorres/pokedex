@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { withNavigation } from "react-navigation";
-import { capitalizeName, extractId } from "../utils/helpers";
+import { capitalize, extractId } from "../utils/helpers";
 import getFullList from "../hooks/getFullList";
 import PokemonImage from "../components/PokemonImage";
 import NavigationButton from "../components/NavigationButton";
+import colours from "../utils/colours";
 
-const Grid = ({ navigation }) => {
+const Grid = () => {
   const [results, showInitialList, errorMessage] = getFullList();
 
   const listOfAllPokemon = results.results;
@@ -30,7 +30,7 @@ const Grid = ({ navigation }) => {
                 >
                   <PokemonImage name={item.name} id={extractId(item.url)} />
                   <Text style={styles.pokemonName}>
-                    {capitalizeName(item.name)}
+                    #{extractId(item.url)} {capitalize(item.name)}
                   </Text>
                 </NavigationButton>
               </View>
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 15,
     fontWeight: "bold",
+    color: colours.default.fontWhite,
   },
 });
 
-export default withNavigation(Grid);
+export default Grid;

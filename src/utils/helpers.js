@@ -1,11 +1,18 @@
-export const capitalizeName = (name) => {
-  return name.charAt(0).toUpperCase() + name.slice(1);
+const dashes = /-/g;
+const idFromUrl = /\/\d{1,}\//g;
+const slashes = /^\/|\/$/g;
+
+export const removeDashes = (name) => {
+  return name.replace(dashes, " ");
+};
+
+export const capitalize = (name) => {
+  const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+  return capitalized.replace(dashes, " ");
 };
 
 export const extractId = (url) => {
   // https://pokeapi.co/api/v2/pokemon/{name}
-  const regex = /\/\d{1,}\//g;
-  const match = url.match(regex);
-  const id = match[0].replace(/^\/|\/$/g, "");
-  return id;
+  const match = url.match(idFromUrl);
+  return match[0].replace(slashes, "");
 };
