@@ -198,10 +198,12 @@ const StatsScreen = ({ navigation }) => {
                                 key={item.name}
                                 style={[
                                   styles.list,
-                                  styles.listDark,
                                   {
                                     backgroundColor:
                                       colours.pokemonTypes[item.name].bgColour,
+                                    color:
+                                      colours.pokemonTypes[item.name]
+                                        .textColour,
                                     fontWeight: "bold",
                                     paddingVertical: 2,
                                     paddingHorizontal: 10,
@@ -267,10 +269,12 @@ const StatsScreen = ({ navigation }) => {
                                 key={item.name}
                                 style={[
                                   styles.list,
-                                  styles.listDark,
                                   {
                                     backgroundColor:
                                       colours.pokemonTypes[item.name].bgColour,
+                                    color:
+                                      colours.pokemonTypes[item.name]
+                                        .textColour,
                                     fontWeight: "bold",
                                     paddingVertical: 2,
                                     paddingHorizontal: 10,
