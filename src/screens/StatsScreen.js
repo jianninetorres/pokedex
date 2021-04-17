@@ -257,7 +257,7 @@ const StatsScreen = ({ navigation }) => {
                             data: typesResults[0].half_damage_to,
                           },
                           {
-                            title: "No damage",
+                            title: "No effect",
                             data: typesResults[0].no_damage_to,
                           },
                         ]}
@@ -328,7 +328,7 @@ const StatsScreen = ({ navigation }) => {
                             data: typesResults[0].half_damage_from,
                           },
                           {
-                            title: "No damage",
+                            title: "No effect",
                             data: typesResults[0].no_damage_from,
                           },
                         ]}
