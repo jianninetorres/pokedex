@@ -21,7 +21,6 @@ export default () => {
         return ids;
       })
       .then((types) => {
-        console.log("types: ", types);
         let results = types.map((type) =>
           fetch(type).then((response) => response.json())
         );
@@ -33,7 +32,6 @@ export default () => {
         });
       })
       .then((response) => {
-        console.log("this response: ", response);
         setTypesResults(response);
       })
       .then((typesResults) => {

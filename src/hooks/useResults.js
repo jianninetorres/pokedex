@@ -9,7 +9,6 @@ export default () => {
     try {
       const response = await pokeapi.get(`/pokemon/${name}`);
       setResults(response.data);
-      // console.log("response.data: ", response.data.types);
     } catch (err) {
       console.log(err);
     }
