@@ -454,7 +454,15 @@ const StatsScreen = ({ navigation }) => {
                   </Text>
                 </View>
                 <View style={[styles.statsContainer, styles.statsContainerRow]}>
-                  {evolutionsResults.id ? getEvolutionChain() : null}
+                  {evolutionsResults.id ? (
+                    getEvolutionChain()
+                  ) : (
+                    <Text
+                      style={[styles.sectionSecondaryTitle, styles.listWhite]}
+                    >
+                      -
+                    </Text>
+                  )}
                 </View>
               </View>
             </>
