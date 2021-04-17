@@ -1,21 +1,34 @@
-import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { Button, View, TextInput, StyleSheet } from "react-native";
 import colours from "../utils/colours";
 
 const SearchBar = ({ query, onQueryChange, onQuerySubmit }) => {
+  const [isSearchButtonVisible, setisSearchButtonVisible] = useState(false);
+
   return (
     <View style={styles.containerStyles}>
       <TextInput
         autoCapitalize="none"
         autoCorrect={false}
+        autoFocus={false}
         placeholder="Search by name or National Pokedex number"
         placeholderTextColor="#818182"
         style={styles.inputStyles}
         value={query}
         onChangeText={onQueryChange}
         onEndEditing={onQuerySubmit}
+        onFocus={() => setisSearchButtonVisible(true)}
         clearButtonMode="always"
       />
+      {isSearchButtonVisible ? (
+        <>
+          <Button title="Search" onPress={onQuerySubmit} />
+          <Button
+            title="Cancel"
+            onPress={() => setisSearchButtonVisible(false)}
+          />
+        </>
+      ) : null}
     </View>
   );
 };
