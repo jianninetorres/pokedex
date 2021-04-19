@@ -12,13 +12,12 @@ import getSpecies from "../hooks/getSpecies";
 import getTypes from "../hooks/getTypes";
 import getEvolutions from "../hooks/getEvolutions";
 import PokemonImage from "../components/PokemonImage";
-import { capitalize, extractId, removeDashes } from "../utils/helpers";
+import { capitalize, removeDashes } from "../utils/helpers";
 import colours from "../utils/colours";
-import NavigationButton from "../components/NavigationButton";
+import Evolutions from "../components/Evolutions";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
-  // const url = navigation.getParam("url");
   const [
     queryResults,
     setResults,
@@ -51,68 +50,6 @@ const StatsScreen = ({ navigation }) => {
     // from within the Stats screen
     [name]
   );
-
-  const getEvolvesFromSpecies = (name, url) => {
-    return (
-      // TODO: make this a component
-      <NavigationButton
-        screen="Stats"
-        dataObj={{
-          name: name,
-          url: url,
-        }}
-      >
-        <PokemonImage name={name} id={extractId(url)} />
-        <Text style={styles.listWhite}>{capitalize(name)}</Text>
-      </NavigationButton>
-    );
-  };
-
-  const getEvolutionChain = () => {
-    let chain = evolutionsResults.chain.evolves_to;
-
-    let evolutionSequence = {
-      list: [evolutionsResults.chain.species.name],
-      url: [evolutionsResults.chain.species.url],
-    };
-
-    if (chain.length > 0) {
-      chain.map((pokemon) => {
-        evolutionSequence.list.push(pokemon.species.name);
-        evolutionSequence.url.push(pokemon.species.url);
-        if (pokemon.evolves_to[0]) {
-          evolutionSequence.list.push(pokemon.evolves_to[0].species.name);
-          evolutionSequence.url.push(pokemon.evolves_to[0].species.url);
-        }
-      });
-
-      return (
-        <FlatList
-          data={evolutionSequence.list}
-          keyExtractor={(result) => result.name}
-          horizontal={true}
-          scrollEnabled={true}
-          renderItem={({ item, index }) => {
-            return (
-              <NavigationButton
-                screen="Stats"
-                dataObj={{
-                  name: item,
-                  url: evolutionSequence.url[index],
-                }}
-              >
-                <PokemonImage
-                  name={item}
-                  id={extractId(evolutionSequence.url[index])}
-                />
-                <Text style={styles.listWhite}>{capitalize(item)}</Text>
-              </NavigationButton>
-            );
-          }}
-        />
-      );
-    }
-  };
 
   return (
     <>
@@ -414,57 +351,9 @@ const StatsScreen = ({ navigation }) => {
                   }}
                 />
               </View>
-              <View
-                style={[styles.statsContainer, styles.statsContainerColumn]}
-              >
-                <Text style={[styles.sectionSecondaryTitle, styles.listWhite]}>
-                  Evolves from{" "}
-                </Text>
-                {speciesResults.evolves_from_species ? (
-                  getEvolvesFromSpecies(
-                    speciesResults.evolves_from_species.name,
-                    speciesResults.evolves_from_species.url
-                  )
-                ) : (
-                  <Text
-                    style={[styles.sectionSecondaryTitle, styles.listWhite]}
-                  >
-                    -
-                  </Text>
-                )}
-              </View>
-              <View
-                style={[
-                  styles.statsContainer,
-                  styles.statsContainerColumn,
-                  { paddingHorizontal: 0 },
-                ]}
-              >
-                <View
-                  style={[
-                    styles.statsContainer,
-                    styles.statsContainerColumn,
-                    { paddingVertical: 0 },
-                  ]}
-                >
-                  <Text
-                    style={[styles.sectionSecondaryTitle, styles.listWhite]}
-                  >
-                    Family
-                  </Text>
-                </View>
-                <View style={[styles.statsContainer, styles.statsContainerRow]}>
-                  {evolutionsResults.id ? (
-                    getEvolutionChain()
-                  ) : (
-                    <Text
-                      style={[styles.sectionSecondaryTitle, styles.listWhite]}
-                    >
-                      -
-                    </Text>
-                  )}
-                </View>
-              </View>
+              {evolutionsResults.id ? (
+                <Evolutions data={[evolutionsResults, speciesResults]} />
+              ) : null}
             </>
           ) : null}
         </View>
