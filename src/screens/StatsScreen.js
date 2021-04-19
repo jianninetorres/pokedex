@@ -322,6 +322,9 @@ const StatsScreen = ({ navigation }) => {
                   ) : null}
                 </View>
               </View>
+              {evolutionsResults.id ? (
+                <Evolutions data={[evolutionsResults, speciesResults]} />
+              ) : null}
               <View
                 style={[styles.statsContainer, styles.statsContainerColumn]}
               >
@@ -351,9 +354,6 @@ const StatsScreen = ({ navigation }) => {
                   }}
                 />
               </View>
-              {evolutionsResults.id ? (
-                <Evolutions data={[evolutionsResults, speciesResults]} />
-              ) : null}
             </>
           ) : null}
         </View>
