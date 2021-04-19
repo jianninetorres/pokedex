@@ -28,7 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Jiannine's Pokedex app project.",
+    "description": "Jiannine's Pokedex app project. Branch 3/evolution-level.",
     "githubUrl": "https://github.com/jianninetorres/pokedex"
   }
 }
