@@ -21,13 +21,13 @@ const SearchBar = ({ query, onQueryChange, onQuerySubmit }) => {
         clearButtonMode="always"
       />
       {isSearchButtonVisible ? (
-        <>
+        <View style={styles.buttonsContainer}>
           <Button title="Search" onPress={onQuerySubmit} />
           <Button
             title="Cancel"
             onPress={() => setisSearchButtonVisible(false)}
           />
-        </>
+        </View>
       ) : null}
     </View>
   );
@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 16,
     fontSize: 13,
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });
 
