@@ -18,18 +18,10 @@ import Evolutions from "../components/Evolutions";
 
 const StatsScreen = ({ navigation }) => {
   const name = navigation.getParam("name");
-  const [
-    queryResults,
-    setResults,
-    searchQuery,
-    queryErrorMessage,
-  ] = useResults();
-  const [
-    species,
-    setSpeciesResults,
-    speciesResults,
-    speciesErrorMessage,
-  ] = getSpecies();
+  const [queryResults, setResults, searchQuery, queryErrorMessage] =
+    useResults();
+  const [species, setSpeciesResults, speciesResults, speciesErrorMessage] =
+    getSpecies();
   const [typesQuery, typesResults, setTypesResults] = getTypes();
   const [
     evolutions,
