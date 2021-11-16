@@ -6,19 +6,30 @@ import { Image, StyleSheet } from "react-native";
 // the endpoint pokemon/name from searchQuery in the Home screen returns an id
 
 const PokemonImage = ({ width, name, id }) => {
+  const pad = (number, length) => {
+    let str = "" + number;
+    while (str.length < length) {
+      str = "0" + str;
+    }
+    return str;
+  };
+
   return (
     <>
       {id !== "" ? (
         <Image
           source={{
-            uri: `https://pokeres.bastionbot.org/images/pokemon/${id}.png`,
+            uri: `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${pad(
+              id,
+              3
+            )}.png`,
           }}
           style={width === "l" ? styles.imageL : styles.image}
         />
       ) : (
         <Image
           source={{
-            uri: `https://img.pokemondb.net/artwork/large/${name}.jpg`,
+            uri: `https://img.pokemondb.net/sprites/bank/normal/${name}.png`,
           }}
           style={width === "l" ? styles.imageL : styles.image}
         />
