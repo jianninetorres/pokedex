@@ -53,6 +53,7 @@ const StatsScreen = ({ navigation }) => {
         <View style={styles.wrapper}>
           {queryResults.id ? (
             <>
+              {/* --- Header --- */}
               <View
                 style={[
                   styles.header,
@@ -102,6 +103,7 @@ const StatsScreen = ({ navigation }) => {
                 key={queryResults.id}
                 style={[styles.statsContainer, styles.statsContainerRow]}
               >
+                {/* --- Types --- */}
                 <View>
                   <View style={styles.typesStyles}>
                     <FlatList
@@ -130,6 +132,7 @@ const StatsScreen = ({ navigation }) => {
                     />
                   </View>
                 </View>
+                {/* --- Base experience --- */}
                 <View>
                   <>
                     <Text style={styles.sectionTitle}>Base experience</Text>
@@ -141,6 +144,7 @@ const StatsScreen = ({ navigation }) => {
                   </>
                 </View>
               </View>
+              {/* --- Stats --- */}
               <View
                 style={[styles.statsContainer, styles.statsContainerColumn]}
               >
@@ -167,6 +171,7 @@ const StatsScreen = ({ navigation }) => {
                   }}
                 />
               </View>
+              {/* --- Damage relations --- */}
               <Text style={[styles.sectionTitle, { marginBottom: 0 }]}>
                 Damage Relations
               </Text>
@@ -314,9 +319,11 @@ const StatsScreen = ({ navigation }) => {
                   ) : null}
                 </View>
               </View>
+              {/* --- Evolution chain --- */}
               {evolutionsResults.id ? (
                 <Evolutions data={[evolutionsResults, speciesResults]} />
               ) : null}
+              {/* --- Moves --- */}
               <View
                 style={[styles.statsContainer, styles.statsContainerColumn]}
               >
