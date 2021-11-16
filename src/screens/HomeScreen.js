@@ -95,8 +95,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   clearButton: {
-    backgroundColor: "hotpink",
+    backgroundColor: "yellow",
     padding: 20,
+    marginTop: 10,
+    textAlign: "center",
   },
 });
 
