@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.xjt6890.pokedex"
     },
     "android": {
       "adaptiveIcon": {
